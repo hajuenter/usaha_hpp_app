@@ -9,47 +9,27 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ClipLoader from "react-spinners/ClipLoader";
+import { LoadingProvider, useLoading } from "./helper/LoadingContext";
 
-function App() {
-  const [isLoaded, setIsLoaded] = useState(false);
+function AppContent() {
+  const { isLoading, setLoadingComplete } = useLoading();
 
   useEffect(() => {
-    const images = Array.from(document.images);
-    if (images.length === 0) {
-      setIsLoaded(true);
-      return;
-    }
+    // Set timeout sebagai fallback
+    const fallbackTimer = setTimeout(() => {
+      setLoadingComplete();
+    }, 3000); // 3 detik maksimal loading
 
-    let loadedCount = 0;
+    return () => clearTimeout(fallbackTimer);
+  }, [setLoadingComplete]);
 
-    const handleImageLoad = () => {
-      loadedCount++;
-      if (loadedCount === images.length) {
-        setIsLoaded(true);
-      }
-    };
-
-    images.forEach((img) => {
-      if (img.complete) {
-        handleImageLoad();
-      } else {
-        img.addEventListener("load", handleImageLoad);
-        img.addEventListener("error", handleImageLoad);
-      }
-    });
-
-    return () => {
-      images.forEach((img) => {
-        img.removeEventListener("load", handleImageLoad);
-        img.removeEventListener("error", handleImageLoad);
-      });
-    };
-  }, []);
-
-  if (!isLoaded) {
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen bg-white">
-        <ClipLoader color="#2563eb" size={60} />
+        <div className="text-center">
+          <ClipLoader color="#2563eb" size={60} />
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
       </div>
     );
   }
@@ -72,6 +52,14 @@ function App() {
       </Routes>
       <Footer />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <LoadingProvider>
+      <AppContent />
+    </LoadingProvider>
   );
 }
 
