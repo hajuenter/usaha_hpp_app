@@ -18,7 +18,7 @@ const Hero = () => {
   };
   return (
     <>
-      <div className="mt-14 pt-5 pb-10 w-full px-4 md:px-10 lg:px-12 flex flex-col md:flex-row items-center lg:gap-10 justify-between lg:mt-20 lg:pb-20">
+      <div className="overflow-x-hidden mt-14 pt-5 pb-10 w-full px-4 md:px-10 lg:px-12 flex flex-col md:flex-row items-center lg:gap-10 justify-between lg:mt-20 lg:pb-20">
         <div className="w-full md:w-1/2 flex justify-center mb-4 md:mb-0 ease-in-out relative animate-float">
           {/* SVG Background */}
           <svg
