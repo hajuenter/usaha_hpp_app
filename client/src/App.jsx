@@ -8,32 +8,27 @@ import Contact from "./pages/Contact";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ClipLoader from "react-spinners/ClipLoader";
-import { LoadingProvider, useLoading } from "./helper/LoadingContext";
+import { ClipLoader } from "react-spinners";
 
-function AppContent() {
-  const { isLoading, setLoadingComplete } = useLoading();
+function App() {
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Set timeout sebagai fallback
-    const fallbackTimer = setTimeout(() => {
-      setLoadingComplete();
-    }, 3000); // 3 detik maksimal loading
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 3500);
 
-    return () => clearTimeout(fallbackTimer);
-  }, [setLoadingComplete]);
+    return () => clearTimeout(timer);
+  }, []);
 
-  if (isLoading) {
+  if (loading) {
+    // Tampilkan loader selama 3 detik
     return (
-      <div className="flex items-center justify-center h-screen bg-white">
-        <div className="text-center">
-          <ClipLoader color="#2563eb" size={60} />
-          <p className="mt-4 text-gray-600">Loading...</p>
-        </div>
+      <div className="h-screen w-screen flex items-center justify-center bg-white">
+        <ClipLoader size={50} color="#3b82f6" />
       </div>
     );
   }
-
   return (
     <div>
       <ToastContainer position="bottom-right" autoClose={2000} />
@@ -52,14 +47,6 @@ function AppContent() {
       </Routes>
       <Footer />
     </div>
-  );
-}
-
-function App() {
-  return (
-    <LoadingProvider>
-      <AppContent />
-    </LoadingProvider>
   );
 }
 
