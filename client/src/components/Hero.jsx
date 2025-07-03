@@ -4,10 +4,46 @@ import { assets } from "./../assets/assets";
 import { TypeAnimation } from "react-type-animation";
 import { useUser } from "@clerk/clerk-react";
 import { toast } from "react-toastify";
+import { useLoading } from "../contexts/LoadingContext";
 
 const Hero = () => {
   const { isSignedIn } = useUser();
   const navigate = useNavigate();
+  const { handleImageLoad, setLoadingComplete } = useLoading();
+  const [imagesLoaded, setImagesLoaded] = useState(0);
+
+  const imageSources = [
+    assets.hero,
+    assets.gmb1,
+    assets.gmb2,
+    assets.gmb3,
+    assets.gmb4,
+    assets.gmb5,
+  ];
+
+  useEffect(() => {
+    let loadedCount = 0;
+
+    const checkImageLoad = () => {
+      loadedCount++;
+      setImagesLoaded(loadedCount);
+
+      if (loadedCount === imageSources.length) {
+        // Semua gambar telah dimuat
+        setTimeout(() => {
+          setLoadingComplete();
+        }, 500); // Delay sedikit untuk smooth transition
+      }
+    };
+
+    // Preload semua gambar
+    imageSources.forEach((src) => {
+      const img = new Image();
+      img.onload = checkImageLoad;
+      img.onerror = checkImageLoad; // Tetap hitung meskipun error
+      img.src = src;
+    });
+  }, [imageSources, setLoadingComplete]);
 
   const handleGetStarted = () => {
     if (isSignedIn) {
@@ -16,6 +52,7 @@ const Hero = () => {
       toast.error("Silakan login terlebih dahulu");
     }
   };
+
   return (
     <>
       <div className="overflow-x-hidden">
@@ -39,6 +76,8 @@ const Hero = () => {
               src={assets.hero}
               alt="Hero"
               className="w-[80%] max-w-md object-contain relative z-10 drop-shadow-xl transition-transform duration-700 hover:-translate-y-2 hover:scale-105"
+              onLoad={() => handleImageLoad(assets.hero)}
+              onError={() => handleImageLoad(assets.hero)}
             />
           </div>
 
@@ -65,13 +104,13 @@ const Hero = () => {
             </p>
             <button
               onClick={handleGetStarted}
-              to="/calculate"
               className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-full cursor-pointer transition"
             >
               Get Started
             </button>
           </div>
         </div>
+
         <div className="w-full px-4 lg:px-28 mt-10 text-center">
           <h1 className="text-2xl font-semibold mb-8">
             PARA PENGUSAHA PERNAH BERKATA
@@ -84,6 +123,8 @@ const Hero = () => {
                 src={assets.gmb1}
                 alt="Benjamin Franklin"
                 className="animate-float w-48 h-48 md:w-60 md:h-60 object-cover rounded-none mx-auto md:mx-0"
+                onLoad={() => handleImageLoad(assets.gmb1)}
+                onError={() => handleImageLoad(assets.gmb1)}
               />
               <div>
                 <p className="italic text-gray-700 mb-2">
@@ -96,12 +137,15 @@ const Hero = () => {
               </div>
             </div>
 
+            {/* Tambahkan onLoad dan onError untuk gambar lainnya juga */}
             {/* Quote 2 (reverse) */}
             <div className="flex flex-col md:flex-row-reverse items-center md:items-start text-left gap-6">
               <img
                 src={assets.gmb3}
                 alt="Henry David Thoreau"
                 className="animate-float w-48 h-48 md:w-60 md:h-60 object-cover rounded-none mx-auto md:mx-0"
+                onLoad={() => handleImageLoad(assets.gmb3)}
+                onError={() => handleImageLoad(assets.gmb3)}
               />
               <div>
                 <p className="italic text-gray-700 mb-2">
@@ -120,6 +164,8 @@ const Hero = () => {
                 src={assets.gmb5}
                 alt="Peter Drucker"
                 className="animate-float w-48 h-48 md:w-60 md:h-60 object-cover rounded-none mx-auto md:mx-0"
+                onLoad={() => handleImageLoad(assets.gmb5)}
+                onError={() => handleImageLoad(assets.gmb5)}
               />
               <div>
                 <p className="italic text-gray-700 mb-2">
@@ -136,6 +182,8 @@ const Hero = () => {
                 src={assets.gmb4}
                 alt="Antoine de Saint-Exupéry"
                 className="animate-float w-48 h-48 md:w-60 md:h-60 object-cover rounded-none mx-auto md:mx-0"
+                onLoad={() => handleImageLoad(assets.gmb4)}
+                onError={() => handleImageLoad(assets.gmb4)}
               />
               <div>
                 <p className="italic text-gray-700 mb-2">
@@ -153,6 +201,8 @@ const Hero = () => {
                 src={assets.gmb2}
                 alt="Mark Twain"
                 className="animate-float w-48 h-48 md:w-60 md:h-60 object-cover rounded-none mx-auto md:mx-0"
+                onLoad={() => handleImageLoad(assets.gmb2)}
+                onError={() => handleImageLoad(assets.gmb2)}
               />
               <div>
                 <p className="italic text-gray-700 mb-2">
