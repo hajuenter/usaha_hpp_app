@@ -63,6 +63,7 @@ const DetailContact = () => {
               <div className="relative">
                 <input
                   disabled={loading}
+                  required
                   type="text"
                   id="name"
                   name="nama"
@@ -82,6 +83,7 @@ const DetailContact = () => {
               </label>
               <div className="relative">
                 <input
+                  required
                   disabled={loading}
                   name="email"
                   type="email"
@@ -104,6 +106,7 @@ const DetailContact = () => {
                 <textarea
                   disabled={loading}
                   id="message"
+                  required
                   name="pesan"
                   rows="5"
                   placeholder="Tulis pesan Anda..."
