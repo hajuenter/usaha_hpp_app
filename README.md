@@ -29,7 +29,7 @@
 
 - **Laporan HPP**: Tampilkan dan cetak hasil perhitungan HPP
 - **Laporan Keuntungan & Kerugian**: Rangkuman estimasi laba/rugi
-- **Cetak dalam Format PDF**: Siap untuk dokumentasi atau laporan usaha
+- **Cetak dalam Format Excel**: Siap untuk dokumentasi atau laporan usaha
 
 ### 📱 **Tampilan Modern & Mudah Digunakan**
 
